@@ -41,15 +41,23 @@ clock = pygame.time.Clock()
 
 # Тут опишите все классы игры.
 class GameObjekt:
+    """Это класс для представления игрового объекта."""
     def __init__(self):
         self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
         self.body_color = None
-
+    """это абстрактный метод, который предназначен для переопределения
+    в дочерних классах. Этот метод должен определять, как объект будет
+    отрисовываться на экране.
+    """
     def draw(self):
         pass
 
 
 class Apple(GameObjekt):
+    """
+    класс, унаследованный от GameObject, описывающий яблоко и действия с ним.
+    Яблоко должно отображаться в случайных клетках игрового поля.
+    """
     def __init__(self):
         super().__init__()
         self.body_color = APPLE_COLOR
@@ -57,7 +65,7 @@ class Apple(GameObjekt):
 
     def randomize_position(self):
         self.position = (
-            randint(0, GRID_WIDTH - 1) * GRID_SIZE, 
+            randint(0, GRID_WIDTH - 1) * GRID_SIZE,
             randint(0, GRID_HEIGHT - 1) * GRID_SIZE
         )
 
@@ -68,6 +76,11 @@ class Apple(GameObjekt):
 
 
 class Snake(GameObjekt):
+    """
+    класс, унаследованный от GameObject, описывающий змейку и её поведение.
+    Этот класс управляет её движением, отрисовкой, а также обрабатывает
+    действия пользователя.
+    """
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -101,13 +114,13 @@ class Snake(GameObjekt):
         if self.last:
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
-            
+
     def get_head_position(self):
         return self.positions[0]
 
     def reset(self):
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
-        self.length = 1  
+        self.length = 1
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
 
 
@@ -141,7 +154,7 @@ def main():
     while True:
         screen.fill(BOARD_BACKGROUND_COLOR)
         clock.tick(SPEED)
-        
+
         handle_keys(snake)
         snake.update_direction()
         apple.draw()
@@ -156,11 +169,18 @@ def main():
         if head_pos in snake.positions[1:]:
             snake.reset()
             apple.randomize_position()
-        
+
         pygame.display.update()
 
         # Тут опишите основную логику игры.
-        # ...
+        # Сначала создаются необходимые объекты.
+        # В основном цикле игры (в функции main)
+        # происходит обновление состояний
+        # объектов: змейка обрабатывает нажатия клавиш и двигается
+        # в соответствии с выбранным направлением.
+        # Если змейка съедает яблоко, её размер увеличивается на один сегмент,
+        # а яблоко перемещается на новую случайную позицию.
+        # При столкновении змейки с самой собой игра начинается заново.
 
 
 if __name__ == '__main__':
@@ -201,9 +221,11 @@ if __name__ == '__main__':
 #                 game_object.next_direction = UP
 #             elif event.key == pygame.K_DOWN and game_object.direction != UP:
 #                 game_object.next_direction = DOWN
-#             elif event.key == pygame.K_LEFT and game_object.direction != RIGHT:
+#             elif event.key == pygame.K_LEFT
+#                  and game_object.direction != RIGHT:
 #                 game_object.next_direction = LEFT
-#             elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
+#             elif event.key == pygame.K_RIGHT
+#                  and game_object.direction != LEFT:
 #                 game_object.next_direction = RIGHT
 
 # Метод обновления направления после нажатия на кнопку
