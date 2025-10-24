@@ -77,8 +77,8 @@ class Apple(GameObjekt):
             randint(0, GRID_HEIGHT - 1) * GRID_SIZE
         )
 
-    # отрисовывает яблоко на игровой поверхности
     def draw(self):
+        """отрисовывает яблоко на игровой поверхности"""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
