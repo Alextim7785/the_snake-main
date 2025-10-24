@@ -1,3 +1,4 @@
+"""Импортируем модули для игры змейка"""
 from random import choice, randint
 
 import pygame
@@ -42,33 +43,39 @@ clock = pygame.time.Clock()
 # Тут опишите все классы игры.
 class GameObjekt:
     """Это класс для представления игрового объекта."""
+    # метод __init__ :инициализирует базовые атрибуты объекта,
+    # такие как его позиция и цвет.
     def __init__(self):
         self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
         self.body_color = None
-    """это абстрактный метод, который предназначен для переопределения
-    в дочерних классах. Этот метод должен определять, как объект будет
-    отрисовываться на экране.
-    """
+
     def draw(self):
-        pass
+        """это абстрактный метод, который
+           предназначен для переопределения
+           в дочерних классах.
+        """
 
 
 class Apple(GameObjekt):
     """
-    класс, унаследованный от GameObject, описывающий яблоко и действия с ним.
-    Яблоко должно отображаться в случайных клетках игрового поля.
+        Это класс Яблоко, унаследованный от родительского класса GameObject,
+        описывающий яблоко и действия с ним
     """
+    # Метод __init__:задаёт цвет яблока и вызывает метод randomize_position,
+    # чтобы установить начальную позицию яблока.
     def __init__(self):
         super().__init__()
         self.body_color = APPLE_COLOR
         self.randomize_position()
 
     def randomize_position(self):
+        """Метод устанавливает случайное положение яблока"""
         self.position = (
             randint(0, GRID_WIDTH - 1) * GRID_SIZE,
             randint(0, GRID_HEIGHT - 1) * GRID_SIZE
         )
 
+    # отрисовывает яблоко на игровой поверхности
     def draw(self):
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
@@ -81,6 +88,7 @@ class Snake(GameObjekt):
     Этот класс управляет её движением, отрисовкой, а также обрабатывает
     действия пользователя.
     """
+    # инициализирует начальное состояние змейки
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -91,11 +99,13 @@ class Snake(GameObjekt):
         self.last = None
 
     def update_direction(self):
+        """Метод обновляет направление движения змейки"""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self):
+        """Метод обновляет направление движения змейки"""
         dx, dy = self.direction
         new_x = (self.positions[0][0] + dx * GRID_SIZE) % SCREEN_WIDTH
         new_y = (self.positions[0][1] + dy * GRID_SIZE) % SCREEN_HEIGHT
@@ -103,6 +113,7 @@ class Snake(GameObjekt):
         if len(self.positions) > self.length:
             self.positions.pop()
 
+    # отрисовывает змейку на экране, затирая след
     def draw(self):
         for position in self.positions[:-1]:
             rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
@@ -116,15 +127,20 @@ class Snake(GameObjekt):
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def get_head_position(self):
+        """Метод возвращает позицию головы змейки"""
         return self.positions[0]
 
     def reset(self):
+        """Метод сбрасывает змейку в начальное состояние"""
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.length = 1
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
 
 
+# обрабатывает нажатия клавиш, чтобы изменить направление движения змейки
 def handle_keys(game_object):
+    """Функция обрабатывает нажатия клавиш,
+        чтобы изменить направление движения змейки"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -145,12 +161,17 @@ def handle_keys(game_object):
 
 
 def main():
-    # Инициализация PyGame:
+    """Инициализация PyGame:"""
     pygame.init()
-    # Тут нужно создать экземпляры классов.
     apple = Apple()
     snake = Snake()
-
+    # Цикл While вычисляет новое состояние игрового поля: определяет координаты
+    # каждого сегмента змейки и, при необходимости, координаты яблока,
+    # а также проверяет, не столкнулась ли змейка сама с собой.
+    # После выполнения всех вычислений вызывается
+    # функция pygame.display.update(), которая обновляет игровое поле
+    # на экране пользователя. Отображение игрового поля обновляется
+    # на каждой итерации цикла.
     while True:
         screen.fill(BOARD_BACKGROUND_COLOR)
         clock.tick(SPEED)
@@ -185,6 +206,9 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # Запускает основную функцию main(),
+    # если скрипт выполняется
+    # как основной модуль.
 
 
 # Метод draw класса Apple
