@@ -40,7 +40,7 @@ pygame.display.set_caption('Змейка')
 clock = pygame.time.Clock()
 
 
-class GameObjekt:
+class GameObject():
     """Это класс для представления игрового объекта."""
 
     # метод __init__ :инициализирует базовые атрибуты объекта,
@@ -55,9 +55,10 @@ class GameObjekt:
         предназначен для переопределения
         в дочерних классах.
         """
+        pass
 
 
-class Apple(GameObjekt):
+class Apple(GameObject):
     """
     Это класс Яблоко, унаследованный от родительского класса GameObject,
     описывающий яблоко и действия с ним
@@ -84,7 +85,7 @@ class Apple(GameObjekt):
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
-class Snake(GameObjekt):
+class Snake(GameObject):
     """
     класс, унаследованный от GameObject, описывающий змейку и её поведение.
     Этот класс управляет её движением, отрисовкой, а также обрабатывает
