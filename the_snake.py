@@ -41,7 +41,6 @@ clock = pygame.time.Clock()
 
 
 class GameObjekt:
-
     """Это класс для представления игрового объекта."""
 
     # метод __init__ :инициализирует базовые атрибуты объекта,
@@ -59,7 +58,6 @@ class GameObjekt:
 
 
 class Apple(GameObjekt):
-
     """
     Это класс Яблоко, унаследованный от родительского класса GameObject,
     описывающий яблоко и действия с ним
@@ -87,7 +85,6 @@ class Apple(GameObjekt):
 
 
 class Snake(GameObjekt):
-
     """
     класс, унаследованный от GameObject, описывающий змейку и её поведение.
     Этот класс управляет её движением, отрисовкой, а также обрабатывает
@@ -119,8 +116,8 @@ class Snake(GameObjekt):
         if len(self.positions) > self.length:
             self.positions.pop()
 
-    # отрисовывает змейку на экране, затирая след
     def draw(self):
+        """отрисовывает змейку на экране, затирая след"""
         for position in self.positions[:-1]:
             rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
             pygame.draw.rect(screen, self.body_color, rect)
