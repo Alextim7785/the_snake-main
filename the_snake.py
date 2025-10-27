@@ -127,7 +127,7 @@ class Snake(GameObject):
             self.last = self.positions.pop()
         else:
             self.last = None
-            
+
     def draw(self):
         """отрисовывает змейку на экране, затирая след"""
         for position in self.positions[:-1]:
@@ -179,6 +179,7 @@ def handle_keys(game_object):
 def main():
     """Инициализация PyGame:"""
     pygame.init()
+    screen.fill(BOARD_BACKGROUND_COLOR)
     apple = Apple()
     snake = Snake()
 
@@ -191,16 +192,13 @@ def main():
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()
             apple.randomize_position(snake.positions[1:])
-        
+
         # Проверка на съедание яблока
         elif snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions[1:])
-        screen.fill(BOARD_BACKGROUND_COLOR)
         apple.draw()
         snake.draw()
-        
-
         pygame.display.update()
 
         # Сначала создаются необходимые объекты.
