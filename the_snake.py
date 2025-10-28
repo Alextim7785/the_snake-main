@@ -74,6 +74,7 @@ class Apple(GameObject):
         super().__init__()
         self.body_color = APPLE_COLOR
         self.randomize_position(occupied_positions)
+        self.occupied_position = occupied_positions
 
     def randomize_position(self, occupied_positions):
         """Метод устанавливает случайное положение яблока"""
